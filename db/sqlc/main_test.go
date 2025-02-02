@@ -14,7 +14,7 @@ var testDB *sql.DB
 
 func TestMain(m *testing.M) {
 	var err error
-	testDB, err = sql.Open("postgres", "postgresql://postgres:postgres@localhost:5432/testdb?sslmode=disable")
+	testDB, err = sql.Open("postgres", "postgresql://postgres:postgres@localhost:5432/simple_bank_test?sslmode=disable")
 	if err != nil {
 		log.Fatal("Cannot connect to database:", err)
 	}
