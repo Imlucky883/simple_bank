@@ -2,6 +2,10 @@
 
 all : postgres createdb migrateup server
 
+# Load environment variables from app.env
+include .env
+export $(shell sed 's/=.*//' .env)
+
 postgres:
 	docker run -d --name postgres -p 5432:5432 -e POSTGRES_PASSWORD=postgres postgres:17.2-alpine3.21
 
