@@ -21,3 +21,6 @@ OFFSET $2;
 -- Example Usage:
 -- If you execute this query with parameters 10{$1} and 20{$2}, it will return 10 rows starting 
 -- from the 21st row (since the offset is 20).
+
+-- name: DeleteAccount :exec
+DELETE FROM accounts WHERE id = $1;

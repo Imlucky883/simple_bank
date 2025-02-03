@@ -38,6 +38,19 @@ func (q *Queries) CreateAccount(ctx context.Context, arg CreateAccountParams) (A
 	return i, err
 }
 
+const deleteAccount = `-- name: DeleteAccount :exec
+
+DELETE FROM accounts WHERE id = $1
+`
+
+// Example Usage:
+// If you execute this query with parameters 10{$1} and 20{$2}, it will return 10 rows starting
+// from the 21st row (since the offset is 20).
+func (q *Queries) DeleteAccount(ctx context.Context, id int64) error {
+	_, err := q.db.ExecContext(ctx, deleteAccount, id)
+	return err
+}
+
 const getAccount = `-- name: GetAccount :one
 
 SELECT id, owner, balance, currency, created_at FROM accounts
