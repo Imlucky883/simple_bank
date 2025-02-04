@@ -1,4 +1,13 @@
-CREATE TABLE "accounts" (
+CREATE TABLE "users" (
+    "username" varchar PRIMARY KEY,
+    "hash_password" varchar NOT NULL,
+    "full_name" varchar NOT NULL,
+    "email" varchar UNIQUE NOT NULL,
+    "password_changed" timestamptz NOTNULL DEFAULT now(),
+    "created_at" timestamptz NOTNULL DEFAULT now()
+);
+
+REATE INDEX idx_users_email ON "users"("email");CREATE TABLE "accounts" (
   "id" bigserial PRIMARY KEY,
   "owner" varchar NOT NULL,
   "balance" bigint NOT NULL,
@@ -31,11 +40,16 @@ CREATE INDEX ON "transfers" ("to_account_id");
 
 CREATE INDEX ON "transfers" ("from_account_id", "to_account_id");
 
+CREATE UNIQUE INDEX ON "accounts" ("owner","currency");
+
 COMMENT ON COLUMN "entries"."amount" IS 'can be +ve or -ve';
 
 COMMENT ON COLUMN "transfers"."amount" IS 'must be +ve';
 
+
 ALTER TABLE "entries" ADD FOREIGN KEY ("account_id") REFERENCES "accounts" ("id");
+
+ALTER TABLE "users" ADD FOREIGN KEY ("username") REFERENCES "accounts" ("id");
 
 ALTER TABLE "transfers" ADD FOREIGN KEY ("from_account_id") REFERENCES "accounts" ("id");
 

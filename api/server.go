@@ -27,18 +27,15 @@ func (server *Server) setupRoutes() {
 	router := server.router
 
 	// Account routes
-	router.POST("/accounts", server.createAccount)       // Create account
-	router.GET("/accounts/:id", server.getAccount)       // Get account by ID
-	router.GET("/accounts", server.listAccounts)         // List accounts with pagination
-	router.DELETE("/accounts/:id", server.deleteAccount) // Delete account by ID
+	router.POST("/accounts", server.createAccount)        // Create account
+	router.GET("/accounts/:id", server.getAccount)        // Get account by ID
+	router.GET("/accounts", server.listAccounts)          // List accounts with pagination
+	router.DELETE("/accounts/:id", server.deleteAccount)  // Delete account by ID
+	server.router.POST("/users", server.createUser)       // Create user
+	server.router.GET("/users/:username", server.getUser) // Get user by username
 }
 
 // Start runs the HTTP server on the given address
 func (server *Server) Start(address string) error {
 	return server.router.Run(address)
-}
-
-// errorResponse formats error messages
-func errorResponse(err error) gin.H {
-	return gin.H{"error": err.Error()}
 }
