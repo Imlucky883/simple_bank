@@ -5,6 +5,7 @@ import (
 	"net/http"
 
 	db "github.com/Imlucky883/simple_bank/db/sqlc"
+	"github.com/Imlucky883/simple_bank/db/util"
 	"github.com/gin-gonic/gin"
 	"github.com/lib/pq"
 )
@@ -31,9 +32,14 @@ func (server *Server) createUser(ctx *gin.Context) {
 		return
 	}
 
+	hashedPassword, err := util.HashPassword(req.HashPassword)
+	if err != nil {
+		ctx.JSON(http.StatusInternalServerError, errorResponse(err))
+		return
+	}
 	arg := db.CreateUserParams{
 		Username:     req.Username,
-		HashPassword: req.HashPassword,
+		HashPassword: hashedPassword,
 		FullName:     req.FullName,
 		Email:        req.Email,
 	}
