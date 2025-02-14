@@ -23,7 +23,7 @@ func main() {
 	}
 
 	store := db.NewStore(conn)
-	server := api.NewServer(store) // Replace 'nil' with the appropriate argument if needed
+	server := api.NewServer(*config, store) // Replace 'nil' with the appropriate argument if needed
 
 	err = server.Start(config.ServerAddress)
 	if err != nil {
